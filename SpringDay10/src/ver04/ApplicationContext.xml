@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd">
+	<bean id="pp" class="ver04.Boy" />
+	<bean id="kk" class="ver04.Girl" />
+
+	<bean id="myAspect" class="ver04.MyAspect" />
+
+	<aop:config>
+		<aop:aspect ref="myAspect">
+			<aop:pointcut expression="execution(* make*(..))" id="target" />
+			<aop:before method="my_before" pointcut-ref="target" />
+			<aop:after-returning method="my_after_returning"
+				pointcut-ref="target" returning="result" />
+			<aop:after-throwing method="my_after_throwing"
+				pointcut-ref="target" throwing="ex" />
+		</aop:aspect>
+	</aop:config>
+</beans>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="repository.mapper.BoardMapper">
+	<insert id="insert" parameterType="Article" useGeneratedKeys="true"
+		keyProperty="articleNum" keyColumn="Article_Num">
+		insert into board
+		(article_num,title,writer,content,readCount,write_date)
+		values
+		(#{article_num},#{title},#{content},#{writer},#{readCount},#{writeDate})
+	</insert>
+
+	<update id="updateReadCount" parameterType="Integer">
+		UPDATE BOARD SET READCOUNT=READCOUNT+1 WHERE ARTICLE_NUM=#{articleNum}
+	</update>
+
+	<select id="selectArticleCount" resultType="Integer">
+		select * from board
+	</select>
+
+	<select id="selct" parameterType="Integer" resultMap="articleMap">
+		select * from board where article_Num=#{articleNum}
+	</select>
+
+	<select id="selectList" parameterType="Map" resultMap="articleMap">
+		<!-- select * from board order by article_num desc rownum #{startRow}, 
+			#{count} -->
+		select * from
+		(select rownum as rn, article_num,title,writer,content,readcount,write_date)
+		where rn between #{startRow} and #{endRow}
+	</select>
+
+	<resultMap type="Article" id="articleMap">
+		<result property="articleNum" column="article_num" />
+		<result property="title" column="title" />
+		<result property="writer" column="writer" />
+		<result property="content" column="content" />
+		<result property="readCount" column="read_count" />
+		<result property="writeDate" column="write_date" />
+	</resultMap>
+
+
+
+</mapper>

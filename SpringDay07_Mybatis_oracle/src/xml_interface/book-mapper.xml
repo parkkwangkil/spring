@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="xml_interface.BookMapper">
+
+	<insert id="insertBook" parameterType="Book" useGeneratedKeys="true"
+		keyColumn="book_num" keyProperty="b_book_num">
+		INSERT INTO
+		books(book_num,title,writer,publisher,price)
+		VALUES(#{b_book_num},#{b_title},#{b_writer},#{b_publisher},#{b_price})
+	</insert>
+
+
+	<delete id="deleteBook">
+		delete from books where
+		book_num>=#{staerRow} and #{endRow}>=BOOK_NUM
+	</delete>
+
+
+
+	<select id="selectBook" parameterType="Integer" resultMap="bookMap">
+		select * from books where book_num=#{book_num}
+	</select>
+
+	<select id="selectBookList" resultMap="bookMap">
+		select * from books
+	</select>
+
+
+	<resultMap type="Book" id="bookMap">
+		<result column="book_num" property="b_book_num" />
+		<result column="writer" property="b_writer"/>
+		<result column="publisher" property="b_publisher" />
+		<result column="price" property="b_price" />
+		<result column="title" property="b_title" />
+	</resultMap>
+
+</mapper>
